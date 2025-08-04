@@ -28,6 +28,18 @@ export interface ProductsResponse {
   products: Product[];
 }
 
+export interface CreateProductRequest {
+  name: string;
+  amount: number;
+  comment?: string;
+}
+
+export interface CreateProductResponse {
+  success: boolean;
+  message: string;
+  product: Product;
+}
+
 export interface ApiError {
   error: string;
   message?: string;
@@ -112,6 +124,15 @@ class ApiClient {
   async getProducts(): Promise<Product[]> {
     const response = await this.request<ProductsResponse>('/product');
     return response.products;
+  }
+
+  // Product API calls - CREATE PRODUCT
+  async createProduct(productData: CreateProductRequest): Promise<Product> {
+    const response = await this.request<CreateProductResponse>('/product', {
+      method: 'POST',
+      body: JSON.stringify(productData),
+    });
+    return response.product;
   }
 }
 
