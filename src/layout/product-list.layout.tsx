@@ -6,9 +6,10 @@ interface ProductListProps {
   products: Product[];
   loading?: boolean;
   onEdit?: (product: Product) => void;
+  onDelete?: (product: Product) => void;
 }
 
-export function ProductList({ products, loading, onEdit }: ProductListProps) {
+export function ProductList({ products, loading, onEdit, onDelete }: ProductListProps) {
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow p-8">
@@ -51,15 +52,27 @@ export function ProductList({ products, loading, onEdit }: ProductListProps) {
                   </p>
                 )}
               </div>
-              {onEdit && (
-                <div className="ml-4">
-                  <Button
-                    onClick={() => onEdit(product)}
-                    variant="secondary"
-                    size="sm"
-                  >
-                    Edit
-                  </Button>
+              {(onEdit || onDelete) && (
+                <div className="ml-4 flex gap-2">
+                  {onEdit && (
+                    <Button
+                      onClick={() => onEdit(product)}
+                      variant="secondary"
+                      size="sm"
+                    >
+                      Edit
+                    </Button>
+                  )}
+                  {onDelete && (
+                    <Button
+                      onClick={() => onDelete(product)}
+                      variant="secondary"
+                      size="sm"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      Delete
+                    </Button>
+                  )}
                 </div>
               )}
             </div>

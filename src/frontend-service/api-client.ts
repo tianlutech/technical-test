@@ -52,6 +52,11 @@ export interface UpdateProductResponse {
   product: Product;
 }
 
+export interface DeleteProductResponse {
+  success: boolean;
+  message: string;
+}
+
 export interface ApiError {
   error: string;
   message?: string;
@@ -154,6 +159,13 @@ class ApiClient {
       body: JSON.stringify(productData),
     });
     return response.product;
+  }
+
+  // Product API calls - DELETE PRODUCT
+  async deleteProduct(productId: string): Promise<void> {
+    await this.request<DeleteProductResponse>(`/product/${productId}`, {
+      method: 'DELETE',
+    });
   }
 }
 

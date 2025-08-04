@@ -4,6 +4,7 @@ import { apiClient, Product, CreateProductRequest, UpdateProductRequest } from '
 import { Button } from '../layout/button.layout';
 import { ProductList } from '../layout/product-list.layout';
 import { ProductForm } from '../layout/product-form.layout';
+import { ConfirmDialog } from '../layout/confirm-dialog.layout';
 
 export default function MainPage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -13,6 +14,8 @@ export default function MainPage() {
   const [creating, setCreating] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
   const [updating, setUpdating] = useState(false);
+  const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const router = useRouter();
 
   // Auth check
@@ -116,6 +119,38 @@ export default function MainPage() {
     setEditProduct(null);
   };
 
+  const handleDeleteProduct = (product: Product) => {
+    setDeleteProduct(product);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deleteProduct) return;
+
+    try {
+      setDeleting(true);
+      setError('');
+      
+      await apiClient.deleteProduct(deleteProduct.id);
+      
+      // Remove product from the list
+      setProducts(prev => prev.filter(p => p.id !== deleteProduct.id));
+      setDeleteProduct(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to delete product');
+      // If unauthorized, redirect to login
+      if (err instanceof Error && err.message.includes('token')) {
+        apiClient.clearToken();
+        router.push('/login');
+      }
+    } finally {
+      setDeleting(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteProduct(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto py-6 px-4">
@@ -156,7 +191,22 @@ export default function MainPage() {
           products={products} 
           loading={loading} 
           onEdit={handleEditProduct}
+          onDelete={handleDeleteProduct}
         />
+
+        {/* Delete Confirmation Dialog */}
+        {deleteProduct && (
+          <ConfirmDialog
+            title="Delete Product"
+            message={`Are you sure you want to delete "${deleteProduct.name}"? This action cannot be undone.`}
+            confirmText="Delete"
+            cancelText="Cancel"
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+            loading={deleting}
+            variant="danger"
+          />
+        )}
       </div>
     </div>
   );
