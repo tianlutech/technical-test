@@ -35,7 +35,7 @@ export class ProductService {
     try {
       const products = await prisma.product.findMany({
         where: { userId },
-        orderBy: { order: 'asc' }
+        orderBy: { order: 'desc' }
       });
       return products;
     } finally {
