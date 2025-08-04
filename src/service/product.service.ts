@@ -120,4 +120,42 @@ export class ProductService {
       await prisma.$disconnect();
     }
   }
+
+  /**
+   * Reorder products for a user
+   */
+  static async reorderProducts(
+    userId: string, 
+    productUpdates: Array<{ id: string; order: number }>
+  ): Promise<Product[]> {
+    try {
+      // Verify all products belong to the user
+      const productIds = productUpdates.map(p => p.id);
+      const existingProducts = await prisma.product.findMany({
+        where: {
+          id: { in: productIds },
+          userId: userId
+        }
+      });
+
+      if (existingProducts.length !== productIds.length) {
+        throw new Error('One or more products do not belong to the user');
+      }
+
+      // Update each product's order in a transaction
+      const updatePromises = productUpdates.map(({ id, order }) =>
+        prisma.product.update({
+          where: { id },
+          data: { order }
+        })
+      );
+
+      await prisma.$transaction(updatePromises);
+
+      // Return all user's products in the new order
+      return await this.getUserProducts(userId);
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
 }
