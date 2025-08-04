@@ -1,0 +1,35 @@
+// data model and database connection for Prisma
+// The schema is used to generate the Prisma Client and manage the database schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products Product[] // One-to-many relationship with Product model
+
+  @@map("users") // Maps the model to the "users" table in the database
+  @@index([email]) // Creates an index on the email field for faster lookups
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  name      String
+  amount    Int
+  comment   String?
+  order     Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@map("products") // Maps the model to the "products" table in the database
+  @@index([id, userId]) // Creates a composite index on id and userId for faster lookups
+}
