@@ -17,10 +17,10 @@ async function main() {
   // Create some sample products for the test user
   const products = await Promise.all([
     prisma.product.upsert({
-      where: { id: 'sample-product-1' },
+      where: { id: '8ebd311c-14c8-40e7-b2f2-3c4b46fa49ac' },
       update: {},
       create: {
-        id: 'sample-product-1',
+        id: '8ebd311c-14c8-40e7-b2f2-3c4b46fa49ac',
         name: 'Laptop',
         amount: 1,
         comment: 'MacBook Pro for development',
@@ -29,10 +29,10 @@ async function main() {
       },
     }),
     prisma.product.upsert({
-      where: { id: 'sample-product-2' },
+      where: { id: '779b4c46-1ca4-450a-8aed-87d4946ec4a2' },
       update: {},
       create: {
-        id: 'sample-product-2',
+        id: '779b4c46-1ca4-450a-8aed-87d4946ec4a2',
         name: 'Coffee',
         amount: 5,
         comment: 'Colombian coffee beans',
@@ -41,10 +41,10 @@ async function main() {
       },
     }),
     prisma.product.upsert({
-      where: { id: 'sample-product-3' },
+      where: { id: '87276ed0-acd1-4132-97de-25b2e9bd854d' },
       update: {},
       create: {
-        id: 'sample-product-3',
+        id: '87276ed0-acd1-4132-97de-25b2e9bd854d',
         name: 'Notebooks',
         amount: 3,
         comment: "Spiral notebooks for notes",
