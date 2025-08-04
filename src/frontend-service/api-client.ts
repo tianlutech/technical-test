@@ -5,11 +5,27 @@ export interface User {
   createdAt: string;
 }
 
+export interface Product {
+  id: string;
+  name: string;
+  amount: number;
+  comment: string | null;
+  order: number;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface LoginResponse {
   success: boolean;
   message: string;
   token: string;
   user: User;
+}
+
+export interface ProductsResponse {
+  success: boolean;
+  products: Product[];
 }
 
 export interface ApiError {
@@ -90,6 +106,12 @@ class ApiClient {
 
   logout() {
     this.clearToken();
+  }
+
+  // Product API calls - VIEW ALL PRODUCTS
+  async getProducts(): Promise<Product[]> {
+    const response = await this.request<ProductsResponse>('/product');
+    return response.products;
   }
 }
 
