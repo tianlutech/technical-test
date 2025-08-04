@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './button.layout';
 import { Input } from './input.layout';
-import { CreateProductRequest } from '../frontend-service/api-client';
+import { CreateProductRequest, Product } from '../frontend-service/api-client';
 
 interface ProductFormProps {
   onSubmit: (productData: CreateProductRequest) => Promise<void>;
   loading?: boolean;
   onCancel?: () => void;
+  editProduct?: Product | null;
 }
 
 interface FormErrors {
@@ -15,13 +16,31 @@ interface FormErrors {
   comment?: string;
 }
 
-export function ProductForm({ onSubmit, loading, onCancel }: ProductFormProps) {
+export function ProductForm({ onSubmit, loading, onCancel, editProduct }: ProductFormProps) {
   const [formData, setFormData] = useState<CreateProductRequest>({
     name: '',
     amount: 0,
     comment: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
+
+  // Populate form when editing
+  useEffect(() => {
+    if (editProduct) {
+      setFormData({
+        name: editProduct.name,
+        amount: editProduct.amount,
+        comment: editProduct.comment || '',
+      });
+    } else {
+      setFormData({
+        name: '',
+        amount: 0,
+        comment: '',
+      });
+    }
+    setErrors({});
+  }, [editProduct]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -52,9 +71,11 @@ export function ProductForm({ onSubmit, loading, onCancel }: ProductFormProps) {
       };
       await onSubmit(submitData);
       
-      // Reset form on success
-      setFormData({ name: '', amount: 0, comment: '' });
-      setErrors({});
+      // Reset form on success only if not editing
+      if (!editProduct) {
+        setFormData({ name: '', amount: 0, comment: '' });
+        setErrors({});
+      }
     } catch (error) {
       // Error handling is done by parent component
       console.error('Form submission error:', error);
@@ -71,7 +92,9 @@ export function ProductForm({ onSubmit, loading, onCancel }: ProductFormProps) {
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">Add New Product</h3>
+      <h3 className="text-lg font-medium text-gray-900 mb-4">
+        {editProduct ? 'Edit Product' : 'Add New Product'}
+      </h3>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -115,7 +138,7 @@ export function ProductForm({ onSubmit, loading, onCancel }: ProductFormProps) {
 
         <div className="flex gap-3 pt-2">
           <Button type="submit" disabled={loading}>
-            {loading ? 'Adding...' : 'Add Product'}
+            {loading ? (editProduct ? 'Updating...' : 'Adding...') : (editProduct ? 'Update Product' : 'Add Product')}
           </Button>
           
           {onCancel && (

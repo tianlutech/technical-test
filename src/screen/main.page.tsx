@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { apiClient, Product, CreateProductRequest } from '../frontend-service/api-client';
+import { apiClient, Product, CreateProductRequest, UpdateProductRequest } from '../frontend-service/api-client';
 import { Button } from '../layout/button.layout';
 import { ProductList } from '../layout/product-list.layout';
 import { ProductForm } from '../layout/product-form.layout';
@@ -11,6 +11,8 @@ export default function MainPage() {
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [creating, setCreating] = useState(false);
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
+  const [updating, setUpdating] = useState(false);
   const router = useRouter();
 
   // Auth check
@@ -68,6 +70,52 @@ export default function MainPage() {
     }
   };
 
+  const handleEditProduct = (product: Product) => {
+    setEditProduct(product);
+    setShowForm(true);
+  };
+
+  const handleUpdateProduct = async (productData: CreateProductRequest) => {
+    if (!editProduct) return;
+
+    try {
+      setUpdating(true);
+      setError('');
+      
+      const updatedProduct = await apiClient.updateProduct(editProduct.id, productData as UpdateProductRequest);
+      
+      // Update product in the list
+      setProducts(prev => 
+        prev.map(p => p.id === editProduct.id ? updatedProduct : p)
+          .sort((a, b) => a.order - b.order)
+      );
+      setShowForm(false);
+      setEditProduct(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update product');
+      // If unauthorized, redirect to login
+      if (err instanceof Error && err.message.includes('token')) {
+        apiClient.clearToken();
+        router.push('/login');
+      }
+    } finally {
+      setUpdating(false);
+    }
+  };
+
+  const handleFormSubmit = async (productData: CreateProductRequest) => {
+    if (editProduct) {
+      await handleUpdateProduct(productData);
+    } else {
+      await handleCreateProduct(productData);
+    }
+  };
+
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setEditProduct(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto py-6 px-4">
@@ -75,7 +123,7 @@ export default function MainPage() {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900">My Products</h1>
           <div className="flex gap-3">
-            <Button onClick={() => setShowForm(true)} disabled={showForm}>
+            <Button onClick={() => setShowForm(true)} disabled={showForm || !!editProduct}>
               Add Product
             </Button>
             <Button onClick={handleLogout} variant="secondary" size="sm">
@@ -95,15 +143,20 @@ export default function MainPage() {
         {showForm && (
           <div className="mb-6">
             <ProductForm
-              onSubmit={handleCreateProduct}
-              loading={creating}
-              onCancel={() => setShowForm(false)}
+              onSubmit={handleFormSubmit}
+              loading={creating || updating}
+              onCancel={handleCancelForm}
+              editProduct={editProduct}
             />
           </div>
         )}
 
         {/* Products List */}
-        <ProductList products={products} loading={loading} />
+        <ProductList 
+          products={products} 
+          loading={loading} 
+          onEdit={handleEditProduct}
+        />
       </div>
     </div>
   );

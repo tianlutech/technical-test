@@ -1,12 +1,14 @@
 import React from 'react';
 import { Product } from '../frontend-service/api-client';
+import { Button } from './button.layout';
 
 interface ProductListProps {
   products: Product[];
   loading?: boolean;
+  onEdit?: (product: Product) => void;
 }
 
-export function ProductList({ products, loading }: ProductListProps) {
+export function ProductList({ products, loading, onEdit }: ProductListProps) {
   if (loading) {
     return (
       <div className="bg-white rounded-lg shadow p-8">
@@ -49,6 +51,17 @@ export function ProductList({ products, loading }: ProductListProps) {
                   </p>
                 )}
               </div>
+              {onEdit && (
+                <div className="ml-4">
+                  <Button
+                    onClick={() => onEdit(product)}
+                    variant="secondary"
+                    size="sm"
+                  >
+                    Edit
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))}
