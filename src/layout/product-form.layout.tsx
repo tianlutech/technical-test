@@ -64,21 +64,17 @@ export function ProductForm({ onSubmit, loading, onCancel, editProduct }: Produc
       return;
     }
 
-    try {
-      const submitData = {
-        ...formData,
-        comment: formData.comment?.trim() || undefined,
-      };
-      await onSubmit(submitData);
-      
-      // Reset form on success only if not editing
-      if (!editProduct) {
-        setFormData({ name: '', amount: 0, comment: '' });
-        setErrors({});
-      }
-    } catch (error) {
-      // Error handling is done by parent component
-      console.error('Form submission error:', error);
+    const submitData = {
+      ...formData,
+      comment: formData.comment?.trim() || undefined,
+    };
+    
+    await onSubmit(submitData);
+    
+    // Reset form on success only if not editing
+    if (!editProduct) {
+      setFormData({ name: '', amount: 0, comment: '' });
+      setErrors({});
     }
   };
 

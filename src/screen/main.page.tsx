@@ -1,75 +1,45 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { apiClient, Product, CreateProductRequest, UpdateProductRequest } from '../frontend-service/api-client';
+import { Product, CreateProductRequest } from '../frontend-service/api-client';
 import { Button } from '../layout/button.layout';
 import { ProductList } from '../layout/product-list.layout';
 import { ProductForm } from '../layout/product-form.layout';
 import { ConfirmDialog } from '../layout/confirm-dialog.layout';
+import { useAuth } from '../hooks/use-auth.hook';
+import { useProducts } from '../hooks/use-products.hook';
 
 export default function MainPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [creating, setCreating] = useState(false);
   const [editProduct, setEditProduct] = useState<Product | null>(null);
-  const [updating, setUpdating] = useState(false);
   const [deleteProduct, setDeleteProduct] = useState<Product | null>(null);
-  const [deleting, setDeleting] = useState(false);
-  const router = useRouter();
+  
+  const { logout, redirectToLogin } = useAuth();
+  const {
+    products,
+    loading,
+    error,
+    creating,
+    updating,
+    deleting,
+    loadProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct: deleteProductApi,
+    clearError,
+  } = useProducts(redirectToLogin);
 
-  // Auth check
+  // Load products on mount
   useEffect(() => {
-    const token = apiClient.getToken();
-    if (!token) {
-      router.push('/login');
-      return;
-    }
     loadProducts();
-  }, [router]);
+  }, []);
 
-  const loadProducts = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      const data = await apiClient.getProducts();
-      setProducts(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load products');
-      // If unauthorized, redirect to login
-      if (err instanceof Error && err.message.includes('token')) {
-        apiClient.clearToken();
-        router.push('/login');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleLogout = () => {
-    apiClient.logout();
-    router.push('/login');
-  };
-
-  const handleCreateProduct = async (productData: CreateProductRequest) => {
-    try {
-      setCreating(true);
-      setError('');
-      
-      const newProduct = await apiClient.createProduct(productData);
-      
-      // Add new product to the list and sort by order
-      setProducts(prev => [...prev, newProduct].sort((a, b) => a.order - b.order));
+  const handleFormSubmit = async (productData: CreateProductRequest) => {
+    if (editProduct) {
+      await updateProduct(editProduct.id, productData);
       setShowForm(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create product');
-      // If unauthorized, redirect to login
-      if (err instanceof Error && err.message.includes('token')) {
-        apiClient.clearToken();
-        router.push('/login');
-      }
-    } finally {
-      setCreating(false);
+      setEditProduct(null);
+    } else {
+      await createProduct(productData);
+      setShowForm(false);
     }
   };
 
@@ -78,73 +48,20 @@ export default function MainPage() {
     setShowForm(true);
   };
 
-  const handleUpdateProduct = async (productData: CreateProductRequest) => {
-    if (!editProduct) return;
-
-    try {
-      setUpdating(true);
-      setError('');
-      
-      const updatedProduct = await apiClient.updateProduct(editProduct.id, productData as UpdateProductRequest);
-      
-      // Update product in the list
-      setProducts(prev => 
-        prev.map(p => p.id === editProduct.id ? updatedProduct : p)
-          .sort((a, b) => a.order - b.order)
-      );
-      setShowForm(false);
-      setEditProduct(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update product');
-      // If unauthorized, redirect to login
-      if (err instanceof Error && err.message.includes('token')) {
-        apiClient.clearToken();
-        router.push('/login');
-      }
-    } finally {
-      setUpdating(false);
-    }
-  };
-
-  const handleFormSubmit = async (productData: CreateProductRequest) => {
-    if (editProduct) {
-      await handleUpdateProduct(productData);
-    } else {
-      await handleCreateProduct(productData);
-    }
-  };
-
-  const handleCancelForm = () => {
-    setShowForm(false);
-    setEditProduct(null);
-  };
-
   const handleDeleteProduct = (product: Product) => {
     setDeleteProduct(product);
   };
 
   const handleConfirmDelete = async () => {
     if (!deleteProduct) return;
+    
+    await deleteProductApi(deleteProduct.id);
+    setDeleteProduct(null);
+  };
 
-    try {
-      setDeleting(true);
-      setError('');
-      
-      await apiClient.deleteProduct(deleteProduct.id);
-      
-      // Remove product from the list
-      setProducts(prev => prev.filter(p => p.id !== deleteProduct.id));
-      setDeleteProduct(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete product');
-      // If unauthorized, redirect to login
-      if (err instanceof Error && err.message.includes('token')) {
-        apiClient.clearToken();
-        router.push('/login');
-      }
-    } finally {
-      setDeleting(false);
-    }
+  const handleCancelForm = () => {
+    setShowForm(false);
+    setEditProduct(null);
   };
 
   const handleCancelDelete = () => {
@@ -161,7 +78,7 @@ export default function MainPage() {
             <Button onClick={() => setShowForm(true)} disabled={showForm || !!editProduct}>
               Add Product
             </Button>
-            <Button onClick={handleLogout} variant="secondary" size="sm">
+            <Button onClick={logout} variant="secondary" size="sm">
               Logout
             </Button>
           </div>
