@@ -101,3 +101,6 @@ Build a simple fullstack **Next.js** app (frontend + backend) to manage a person
 - `src/hooks/` → Custom React hooks
 - `src/utils/` → jwt middleware and utilities
 - `prisma/` → Prisma schema and migrations
+---
+### Live App Link
+- [Vercel Deployment Link](https://technical-test-phi-nine.vercel.app/)
