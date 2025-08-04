@@ -57,6 +57,16 @@ export interface DeleteProductResponse {
   message: string;
 }
 
+export interface ReorderProductsRequest {
+  products: Array<{ id: string; order: number }>;
+}
+
+export interface ReorderProductsResponse {
+  success: boolean;
+  message: string;
+  products: Product[];
+}
+
 export interface ApiError {
   error: string;
   message?: string;
@@ -166,6 +176,15 @@ class ApiClient {
     await this.request<DeleteProductResponse>(`/product/${productId}`, {
       method: 'DELETE',
     });
+  }
+
+  // Product API calls - REORDER PRODUCTS
+  async reorderProducts(products: Array<{ id: string; order: number }>): Promise<Product[]> {
+    const response = await this.request<ReorderProductsResponse>('/product/reorder', {
+      method: 'PATCH',
+      body: JSON.stringify({ products }),
+    });
+    return response.products;
   }
 }
 

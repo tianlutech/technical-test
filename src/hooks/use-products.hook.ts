@@ -9,10 +9,12 @@ interface UseProductsReturn {
   creating: boolean;
   updating: boolean;
   deleting: boolean;
+  reordering: boolean;
   loadProducts: () => Promise<void>;
   createProduct: (productData: CreateProductRequest) => Promise<void>;
   updateProduct: (productId: string, productData: CreateProductRequest) => Promise<void>;
   deleteProduct: (productId: string) => Promise<void>;
+  reorderProducts: (products: Array<{ id: string; order: number }>) => Promise<void>;
   clearError: () => void;
 }
 
@@ -23,6 +25,7 @@ export function useProducts(onAuthError: () => void): UseProductsReturn {
   const [creating, setCreating] = useState(false);
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [reordering, setReordering] = useState(false);
 
   const handleAuthError = (err: Error) => {
     if (err.message.includes('token')) {
@@ -108,6 +111,25 @@ export function useProducts(onAuthError: () => void): UseProductsReturn {
     }
   };
 
+  const reorderProducts = async (products: Array<{ id: string; order: number }>) => {
+    try {
+      setReordering(true);
+      setError('');
+      
+      const updatedProducts = await apiClient.reorderProducts(products);
+      setProducts(updatedProducts);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to reorder products';
+      setError(errorMessage);
+      if (err instanceof Error) {
+        handleAuthError(err);
+      }
+      throw err;
+    } finally {
+      setReordering(false);
+    }
+  };
+
   const clearError = () => setError('');
 
   return {
@@ -117,10 +139,12 @@ export function useProducts(onAuthError: () => void): UseProductsReturn {
     creating,
     updating,
     deleting,
+    reordering,
     loadProducts,
     createProduct,
     updateProduct,
     deleteProduct,
+    reorderProducts,
     clearError,
   };
 }

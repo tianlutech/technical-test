@@ -20,10 +20,12 @@ export default function MainPage() {
     creating,
     updating,
     deleting,
+    reordering,
     loadProducts,
     createProduct,
     updateProduct,
     deleteProduct: deleteProductApi,
+    reorderProducts,
     clearError,
   } = useProducts(redirectToLogin);
 
@@ -68,6 +70,16 @@ export default function MainPage() {
     setDeleteProduct(null);
   };
 
+  const handleReorderProducts = async (reorderedProducts: Product[]) => {
+    // Create the reorder items with the new order
+    const reorderItems = reorderedProducts.map((product, index) => ({
+      id: product.id,
+      order: index + 1, // Ensure order starts from 1
+    }));
+
+    await reorderProducts(reorderItems);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto py-6 px-4">
@@ -106,9 +118,10 @@ export default function MainPage() {
         {/* Products List */}
         <ProductList 
           products={products} 
-          loading={loading} 
+          loading={loading || reordering} 
           onEdit={handleEditProduct}
           onDelete={handleDeleteProduct}
+          onReorder={handleReorderProducts}
         />
 
         {/* Delete Confirmation Dialog */}
