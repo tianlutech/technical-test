@@ -1,8 +1,5 @@
 export class ApiError extends Error {
-  constructor(
-    public status: number,
-    public message: string
-  ) {
+  constructor(public status: number, message: string) {
     super(message);
     this.name = 'ApiError';
   }
@@ -10,63 +7,27 @@ export class ApiError extends Error {
 
 async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== 'undefined') {
+      window.location.href = '/';
+      throw new ApiError(401, 'Unauthorized');
+    }
     const error = await response.json().catch(() => ({ message: response.statusText }));
     throw new ApiError(response.status, error.message || 'An error occurred');
   }
-
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
+  if (response.status === 204) return undefined as T;
   return response.json();
 }
 
-export async function apiGet<T>(url: string): Promise<T> {
-  const response = await fetch(url, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+const fetchOptions = { credentials: 'include' as const, headers: { 'Content-Type': 'application/json' } };
 
-  return handleResponse<T>(response);
-}
+export const apiGet = <T>(url: string): Promise<T> =>
+  fetch(url, fetchOptions).then((r) => handleResponse<T>(r));
 
-export async function apiPost<T>(url: string, data?: unknown): Promise<T> {
-  const response = await fetch(url, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: data ? JSON.stringify(data) : undefined,
-  });
+export const apiPost = <T>(url: string, data?: unknown): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'POST', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r));
 
-  return handleResponse<T>(response);
-}
+export const apiPut = <T>(url: string, data?: unknown): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'PUT', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r));
 
-export async function apiPut<T>(url: string, data?: unknown): Promise<T> {
-  const response = await fetch(url, {
-    method: 'PUT',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: data ? JSON.stringify(data) : undefined,
-  });
-
-  return handleResponse<T>(response);
-}
-
-export async function apiDelete<T>(url: string): Promise<T> {
-  const response = await fetch(url, {
-    method: 'DELETE',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-
-  return handleResponse<T>(response);
-}
-
+export const apiDelete = <T>(url: string): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'DELETE' }).then((r) => handleResponse<T>(r));
