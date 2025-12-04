@@ -14,12 +14,12 @@ While working on this assessment, I reviewed [Tianlu Tech's original website](ht
 
 ## Features
 
-- ✅ **Email-only login** - No password required, magic link authentication
-- ✅ **Product management** - Add, edit, delete, and reorder products
-- ✅ **Inline editing** - Edit products directly in the list
-- ✅ **User isolation** - Each user sees only their own products
-- ✅ **Drag and drop reordering** - Reorder products by dragging
-- ✅ **Minimalistic design** - Clean, flat, elegant UI
+- **Email-only login** - No password required, magic link authentication
+- **Product management** - Add, edit, delete, and reorder products
+- **Inline editing** - Edit products directly in the list
+- **User isolation** - Each user sees only their own products
+- **Drag and drop reordering** - Reorder products by dragging
+- **Minimalistic design** - Clean, flat, elegant UI
 
 ## Tech Stack
 
@@ -84,6 +84,7 @@ npm run prisma:migrate
 ```
 
 5. Set up Gmail App Password:
+
    - Go to your Google Account → Security
    - Enable **2-Step Verification** if not already enabled
    - Go to Google Account → Security → App passwords
@@ -91,7 +92,6 @@ npm run prisma:migrate
    - Enter a name like "Product List App"
    - Click **Generate** and copy the 16-character password
    - Add your Gmail email and app password to `.env`
-
 6. Run the development server:
 
 ```bash
