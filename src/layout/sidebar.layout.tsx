@@ -27,8 +27,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ userEmail, onLogout }) => {
       {/* Logo / Brand */}
       <div className="px-5 py-5 border-b border-neutral-800">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">T</span>
+          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center">
+            <span className="text-neutral-900 font-bold text-sm">T</span>
           </div>
           <span className="font-semibold text-white">Tianlu</span>
         </div>
@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ userEmail, onLogout }) => {
       {/* User section */}
       <div className="px-3 py-4 border-t border-neutral-800">
         <div className="flex items-center gap-3 px-3 py-2 mb-2">
-          <div className="w-8 h-8 rounded-lg bg-amber-500 flex items-center justify-center text-white text-sm font-medium">
+          <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-neutral-900 text-sm font-medium">
             {userEmail.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">

@@ -63,7 +63,7 @@ export default function LoginPage() {
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-amber-500/50 border-t-amber-500 rounded-full animate-spin"></div>
+        <div className="w-5 h-5 border-2 border-neutral-700 border-t-white rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -74,8 +74,8 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">T</span>
+            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
+              <span className="text-neutral-900 font-bold text-lg">T</span>
             </div>
             <span className="text-2xl font-semibold text-white">Tianlu</span>
           </div>
@@ -84,8 +84,8 @@ export default function LoginPage() {
 
         {success ? (
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
-            <div className="w-14 h-14 rounded-full bg-emerald-500 flex items-center justify-center mx-auto mb-6">
-              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mx-auto mb-6">
+              <svg className="w-7 h-7 text-neutral-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
@@ -122,7 +122,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
                   required
-                  className="w-full px-4 py-3.5 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-sm"
+                  className="w-full px-4 py-3.5 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all text-sm"
                 />
                 {error && (
                   <p className="mt-2 text-sm text-red-400">{error}</p>
@@ -132,7 +132,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="w-full py-3.5 bg-white hover:bg-neutral-100 text-neutral-900 font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">

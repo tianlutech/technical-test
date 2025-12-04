@@ -172,8 +172,8 @@ export default function ProductListPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-amber-500/50 border-t-amber-500 rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-5 h-5 border-2 border-neutral-300 border-t-neutral-900 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -202,18 +202,18 @@ export default function ProductListPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-white border border-neutral-200 rounded-xl p-4">
-            <p className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-1">Total Items</p>
-            <p className="text-2xl font-semibold text-neutral-900">{products.length}</p>
+        <div className="grid grid-cols-3 gap-6">
+          <div className="border-l-2 border-neutral-900 pl-4">
+            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Total Items</p>
+            <p className="text-3xl font-semibold text-neutral-900">{products.length}</p>
           </div>
-          <div className="bg-white border border-neutral-200 rounded-xl p-4">
-            <p className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-1">Total Value</p>
-            <p className="text-2xl font-semibold text-neutral-900">${totalValue.toFixed(2)}</p>
+          <div className="border-l-2 border-neutral-300 pl-4">
+            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Total Value</p>
+            <p className="text-3xl font-semibold text-neutral-900">${totalValue.toFixed(2)}</p>
           </div>
-          <div className="bg-white border border-neutral-200 rounded-xl p-4">
-            <p className="text-xs font-medium text-neutral-500 uppercase tracking-wide mb-1">Average</p>
-            <p className="text-2xl font-semibold text-neutral-900">
+          <div className="border-l-2 border-neutral-300 pl-4">
+            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Average</p>
+            <p className="text-3xl font-semibold text-neutral-900">
               ${products.length > 0 ? (totalValue / products.length).toFixed(2) : '0.00'}
             </p>
           </div>
@@ -222,7 +222,7 @@ export default function ProductListPage() {
 
       {/* Add Product Form */}
       {showAddForm && (
-        <div className="mb-6 bg-white border border-neutral-200 rounded-xl p-6">
+        <div className="mb-8 border border-neutral-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-5">
             <h3 className="font-medium text-neutral-900">New Product</h3>
             <button
@@ -281,25 +281,25 @@ export default function ProductListPage() {
       )}
 
       {/* Products Section */}
-      <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-        <div className="px-5 py-4 border-b border-neutral-100">
+      <div className="border border-neutral-200 rounded-lg overflow-hidden">
+        <div className="px-5 py-4 border-b border-neutral-200 bg-neutral-50">
           <div className="flex items-center justify-between">
             <h2 className="font-medium text-neutral-900">All Products</h2>
-            <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-1 rounded-full">
+            <span className="text-xs text-neutral-500">
               {products.length} item{products.length !== 1 ? 's' : ''}
             </span>
           </div>
         </div>
 
         {products.length === 0 ? (
-          <div className="text-center py-16 px-4">
-            <div className="w-14 h-14 rounded-2xl bg-neutral-100 flex items-center justify-center mx-auto mb-4">
-              <svg className="w-7 h-7 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-20 px-4">
+            <div className="w-12 h-12 rounded-full border-2 border-neutral-200 flex items-center justify-center mx-auto mb-4">
+              <svg className="w-6 h-6 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
             </div>
             <p className="text-neutral-900 font-medium mb-1">No products yet</p>
-            <p className="text-neutral-500 text-sm mb-4">Get started by adding your first product</p>
+            <p className="text-neutral-400 text-sm mb-5">Get started by adding your first product</p>
             {!showAddForm && (
               <Button onClick={() => setShowAddForm(true)} size="sm">
                 <span className="flex items-center gap-2">
@@ -312,7 +312,7 @@ export default function ProductListPage() {
             )}
           </div>
         ) : (
-          <div className="divide-y divide-neutral-100" onDragEnd={handleDragEnd}>
+          <div className="divide-y divide-neutral-200" onDragEnd={handleDragEnd}>
             {products.map((product) => (
               <ProductItem
                 key={product.id}

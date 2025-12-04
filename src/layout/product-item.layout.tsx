@@ -56,7 +56,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
 
   if (isEditing) {
     return (
-      <div className="p-5 bg-amber-50/50">
+      <div className="p-5 bg-neutral-50">
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <Input
@@ -101,7 +101,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       onDragOver={onDragOver}
       onDrop={onDrop}
       className={`group flex items-center gap-4 px-5 py-4 cursor-move transition-colors ${
-        dragOver ? 'bg-amber-50' : 'hover:bg-neutral-50'
+        dragOver ? 'bg-neutral-100' : 'hover:bg-neutral-50'
       }`}
     >
       {/* Drag Handle */}
