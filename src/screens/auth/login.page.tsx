@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '@/src/layout/button.layout';
 import { authApi } from '@/src/service/fetch/auth.api';
 import { ApiError } from '@/src/service/fetch/api-client';
 
@@ -63,22 +62,19 @@ export default function LoginPage() {
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center">
+      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
         <div className="w-5 h-5 border-2 border-amber-500/50 border-t-amber-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-      
-      <div className="w-full max-w-md relative z-10">
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center px-4">
+      <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center">
               <span className="text-white font-bold text-lg">T</span>
             </div>
             <span className="text-2xl font-semibold text-white">Tianlu</span>
@@ -87,8 +83,8 @@ export default function LoginPage() {
         </div>
 
         {success ? (
-          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-2xl p-8 text-center">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-500 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/20">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
+            <div className="w-14 h-14 rounded-full bg-emerald-500 flex items-center justify-center mx-auto mb-6">
               <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
@@ -109,7 +105,7 @@ export default function LoginPage() {
             </button>
           </div>
         ) : (
-          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-2xl p-8">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8">
             <div className="text-center mb-8">
               <h2 className="text-xl font-semibold text-white mb-2">Welcome back</h2>
               <p className="text-neutral-500 text-sm">Sign in to continue to your dashboard</p>
@@ -126,7 +122,7 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@company.com"
                   required
-                  className="w-full px-4 py-3.5 bg-neutral-800/50 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all text-sm"
+                  className="w-full px-4 py-3.5 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all text-sm"
                 />
                 {error && (
                   <p className="mt-2 text-sm text-red-400">{error}</p>
@@ -136,7 +132,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-white font-medium rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
