@@ -26,13 +26,11 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+    <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center">
       <div className="text-center">
-        <div className="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <h1 className="text-xl font-semibold text-white mb-2">Verifying your login</h1>
-        <p className="text-slate-400">Please wait...</p>
+        <div className="w-5 h-5 border-2 border-[#f97316] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-sm text-[#8e8e8e]">Signing you in...</p>
       </div>
     </div>
   );
 }
-

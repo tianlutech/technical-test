@@ -56,11 +56,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
 
   if (isEditing) {
     return (
-      <div
-        className={`p-5 border-2 border-orange-300 rounded-xl bg-orange-50/50 shadow-sm ${
-          dragOver ? 'border-orange-400' : ''
-        }`}
-      >
+      <div className="p-5 border border-[#e5e5e5] rounded-xl bg-[#fafafa]">
         <div className="space-y-4">
           <Input
             label="Product Name"
@@ -69,7 +65,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
             placeholder="Enter product name"
           />
           <Input
-            label="Amount ($)"
+            label="Amount"
             type="number"
             step="0.01"
             value={amount}
@@ -77,15 +73,15 @@ export const ProductItem: React.FC<ProductItemProps> = ({
             placeholder="0.00"
           />
           <Textarea
-            label="Comment (optional)"
+            label="Comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Add a comment..."
+            placeholder="Optional comment..."
             rows={2}
           />
-          <div className="flex gap-2 pt-2">
-            <Button onClick={handleSave} size="sm" className="bg-orange-500 hover:bg-orange-600 focus:ring-orange-500">
-              Save Changes
+          <div className="flex gap-3 pt-2">
+            <Button onClick={handleSave} size="sm">
+              Save
             </Button>
             <Button onClick={onCancel} variant="ghost" size="sm">
               Cancel
@@ -102,56 +98,56 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className={`group p-5 border border-slate-200 rounded-xl bg-white hover:border-slate-300 hover:shadow-md transition-all duration-200 cursor-move ${
-        dragOver ? 'border-orange-400 shadow-lg scale-[1.02]' : ''
+      className={`group flex items-center gap-4 p-4 border border-[#e5e5e5] rounded-xl bg-white hover:border-[#d1d1d1] transition-all cursor-move ${
+        dragOver ? 'border-[#f97316] bg-[#fff7ed]' : ''
       }`}
     >
-      <div className="flex items-center gap-4">
-        {/* Drag Handle */}
-        <div className="flex-shrink-0 text-slate-300 group-hover:text-slate-400 transition-colors">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z" />
+      {/* Drag Handle */}
+      <div className="text-[#d1d1d1] group-hover:text-[#8e8e8e] transition-colors">
+        <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+          <circle cx="4" cy="4" r="1.5" />
+          <circle cx="4" cy="8" r="1.5" />
+          <circle cx="4" cy="12" r="1.5" />
+          <circle cx="10" cy="4" r="1.5" />
+          <circle cx="10" cy="8" r="1.5" />
+          <circle cx="10" cy="12" r="1.5" />
+        </svg>
+      </div>
+
+      {/* Product Info */}
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-medium text-[#0d0d0d]">{initialName}</h3>
+        {initialComment && (
+          <p className="text-sm text-[#8e8e8e] mt-0.5 truncate">{initialComment}</p>
+        )}
+      </div>
+
+      {/* Amount */}
+      <div className="text-sm font-medium text-[#0d0d0d]">
+        ${initialAmount.toFixed(2)}
+      </div>
+
+      {/* Actions */}
+      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          onClick={onEdit}
+          className="p-2 rounded-lg text-[#8e8e8e] hover:text-[#0d0d0d] hover:bg-[#f5f5f5] transition-colors"
+          title="Edit"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
           </svg>
-        </div>
-
-        {/* Product Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 mb-1">
-            <h3 className="text-base font-semibold text-slate-800 truncate">{initialName}</h3>
-          </div>
-          {initialComment && (
-            <p className="text-sm text-slate-500 truncate">{initialComment}</p>
-          )}
-        </div>
-
-        {/* Amount */}
-        <div className="flex-shrink-0 text-right">
-          <p className="text-xl font-bold text-slate-800">${initialAmount.toFixed(2)}</p>
-        </div>
-
-        {/* Actions */}
-        <div className="flex gap-1 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button
-            onClick={onEdit}
-            className="p-2 rounded-lg text-slate-400 hover:text-orange-600 hover:bg-orange-50 transition-colors"
-            title="Edit"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-            </svg>
-          </button>
-          <button
-            onClick={onDelete}
-            className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-            title="Delete"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
-        </div>
+        </button>
+        <button
+          onClick={onDelete}
+          className="p-2 rounded-lg text-[#8e8e8e] hover:text-red-500 hover:bg-red-50 transition-colors"
+          title="Delete"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
+        </button>
       </div>
     </div>
   );
 };
-

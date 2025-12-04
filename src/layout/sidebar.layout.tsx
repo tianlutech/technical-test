@@ -16,39 +16,39 @@ export const Sidebar: React.FC<SidebarProps> = ({ userEmail, onLogout }) => {
       href: '/products',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
         </svg>
       ),
     },
   ];
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-slate-900 text-white flex flex-col">
+    <aside className="fixed left-0 top-0 h-full w-[260px] bg-[#0d0d0d] text-white flex flex-col">
       {/* Logo / Brand */}
-      <div className="p-6 border-b border-slate-700">
-        <h1 className="text-xl font-bold tracking-tight">
-          <span className="text-orange-400">Tianlu</span> Tech
+      <div className="px-5 py-6">
+        <h1 className="text-lg font-semibold tracking-tight flex items-center gap-2">
+          <span className="text-[#f97316]">●</span>
+          <span>Tianlu</span>
         </h1>
-        <p className="text-slate-400 text-xs mt-1">Product Management</p>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
-        <ul className="space-y-2">
+      <nav className="flex-1 px-3">
+        <ul className="space-y-1">
           {navItems.map((item) => {
             const isActive = router.pathname === item.href;
             return (
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                     isActive
-                      ? 'bg-orange-500 text-white'
-                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                      ? 'bg-[#2f2f2f] text-white'
+                      : 'text-[#ececec] hover:bg-[#1a1a1a]'
                   }`}
                 >
                   {item.icon}
-                  <span className="font-medium">{item.name}</span>
+                  <span>{item.name}</span>
                 </Link>
               </li>
             );
@@ -57,27 +57,25 @@ export const Sidebar: React.FC<SidebarProps> = ({ userEmail, onLogout }) => {
       </nav>
 
       {/* User section */}
-      <div className="p-4 border-t border-slate-700">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-semibold">
+      <div className="px-3 py-4 border-t border-[#2f2f2f]">
+        <div className="flex items-center gap-3 px-3 py-2">
+          <div className="w-8 h-8 rounded-full bg-[#f97316] flex items-center justify-center text-white text-sm font-medium">
             {userEmail.charAt(0).toUpperCase()}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-white truncate">{userEmail}</p>
-            <p className="text-xs text-slate-400">Logged in</p>
+            <p className="text-sm text-white truncate">{userEmail}</p>
           </div>
         </div>
         <button
           onClick={onLogout}
-          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-slate-800 text-slate-300 hover:bg-red-600 hover:text-white transition-all duration-200"
+          className="mt-2 w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-[#ececec] hover:bg-[#1a1a1a] transition-colors"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
           </svg>
-          <span className="font-medium">Logout</span>
+          <span>Log out</span>
         </button>
       </div>
     </aside>
   );
 };
-
