@@ -13,10 +13,8 @@ export interface Product {
 
 export const productApi = {
   getProducts: () => apiGet<Product[]>('/api/products'),
-  getProduct: (id: string) => apiGet<Product>(`/api/products/${id}`),
   createProduct: (data: CreateProductDto) => apiPost<Product>('/api/products', data),
   updateProduct: (id: string, data: UpdateProductDto) => apiPut<Product>(`/api/products/${id}`, data),
   deleteProduct: (id: string) => apiDelete<void>(`/api/products/${id}`),
   reorderProducts: (data: ReorderProductsDto) => apiPut<void>('/api/products/reorder', data),
 };
-

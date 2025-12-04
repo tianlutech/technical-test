@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 interface SidebarProps {
   userEmail: string;
@@ -8,62 +7,27 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ userEmail, onLogout }) => {
-  const router = useRouter();
-
-  const navItems = [
-    {
-      name: 'Products',
-      href: '/products',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-        </svg>
-      ),
-    },
-  ];
-
   return (
     <aside className="fixed left-0 top-0 h-full w-[260px] bg-neutral-900 text-white flex flex-col">
-    
       <div className="px-5 py-5 border-b border-neutral-800">
-        <div className="flex items-center gap-3">
-          <span className="font-semibold text-white">Tianlu</span>
-        </div>
+        <span className="font-semibold text-white">Tianlu</span>
       </div>
 
-      {/* Navigation */}
       <nav className="flex-1 px-3 py-4">
         <p className="px-3 mb-2 text-xs font-medium text-neutral-500 uppercase tracking-wider">Menu</p>
-        <ul className="space-y-1">
-          {navItems.map((item) => {
-            const isActive = router.pathname === item.href;
-            return (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                    isActive
-                      ? 'bg-neutral-800 text-white'
-                      : 'text-neutral-400 hover:bg-neutral-800/50 hover:text-white'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <Link
+          href="/products"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm bg-neutral-800 text-white"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <span>Products</span>
+        </Link>
       </nav>
 
-      {/* User section */}
       <div className="px-3 py-4 border-t border-neutral-800">
-        <div className="flex items-center gap-3 px-3 py-2 mb-2">
-          
-          <div className="flex-1 min-w-0">
-            <p className="text-sm text-white truncate">{userEmail}</p>
-          </div>
-        </div>
+        <p className="px-3 py-2 text-sm text-white truncate">{userEmail}</p>
         <button
           onClick={onLogout}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-neutral-400 hover:bg-neutral-800/50 hover:text-white transition-colors"

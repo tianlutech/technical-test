@@ -294,7 +294,6 @@ export default function ProductListPage() {
             {products.map((product) => (
               <ProductItem
                 key={product.id}
-                id={product.id}
                 name={product.name}
                 amount={product.amount}
                 comment={product.comment}

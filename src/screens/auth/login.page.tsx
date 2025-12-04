@@ -13,57 +13,28 @@ export default function LoginPage() {
 
   useEffect(() => {
     authApi.getMe()
-      .then(() => {
-        router.replace('/products');
-      })
-      .catch(() => {
-        setCheckingAuth(false);
-      });
+      .then(() => router.replace('/products'))
+      .catch(() => setCheckingAuth(false));
   }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-
     try {
       await authApi.login({ email });
       setSuccess(true);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setError(error.message);
-      } else {
-        setError('Failed to send login email');
-      }
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Failed to send login email');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const { token } = router.query;
-    if (token && typeof token === 'string') {
-      handleVerifyToken(token);
-    }
-  }, [router.query]);
-
-  const handleVerifyToken = async (token: string) => {
-    try {
-      await authApi.verifyToken(token);
-      router.push('/products');
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setError(error.message);
-      } else {
-        setError('Failed to verify login token');
-      }
     }
   };
 
   if (checkingAuth) {
     return (
       <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-neutral-700 border-t-white rounded-full animate-spin"></div>
+        <div className="w-5 h-5 border-2 border-neutral-700 border-t-white rounded-full animate-spin" />
       </div>
     );
   }
@@ -71,12 +42,8 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-neutral-950 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-3 mb-4">
-            
-            <span className="text-2xl font-semibold text-white">Tianlu</span>
-          </div>
+          <h1 className="text-2xl font-semibold text-white mb-2">Tianlu</h1>
           <p className="text-neutral-500 text-sm">Product Management System</p>
         </div>
 
@@ -89,16 +56,9 @@ export default function LoginPage() {
             </div>
             <h2 className="text-xl font-semibold text-white mb-2">Check your inbox</h2>
             <p className="text-neutral-400 text-sm mb-6">
-              We sent a magic link to<br />
-              <span className="text-white font-medium">{email}</span>
+              We sent a magic link to<br /><span className="text-white font-medium">{email}</span>
             </p>
-            <button
-              onClick={() => {
-                setSuccess(false);
-                setEmail('');
-              }}
-              className="text-sm text-neutral-500 hover:text-white transition-colors"
-            >
+            <button onClick={() => { setSuccess(false); setEmail(''); }} className="text-sm text-neutral-500 hover:text-white transition-colors">
               Use a different email
             </button>
           </div>
@@ -111,9 +71,7 @@ export default function LoginPage() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-neutral-400 mb-2">
-                  Email address
-                </label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Email address</label>
                 <input
                   type="email"
                   value={email}
@@ -122,9 +80,7 @@ export default function LoginPage() {
                   required
                   className="w-full px-4 py-3.5 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all text-sm"
                 />
-                {error && (
-                  <p className="mt-2 text-sm text-red-400">{error}</p>
-                )}
+                {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
               </div>
 
               <button
@@ -135,14 +91,12 @@ export default function LoginPage() {
                 {isLoading ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
                     Sending...
                   </span>
-                ) : (
-                  'Continue with Email'
-                )}
+                ) : 'Continue with Email'}
               </button>
             </form>
 
