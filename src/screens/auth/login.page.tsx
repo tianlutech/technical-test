@@ -74,9 +74,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
-              <span className="text-neutral-900 font-bold text-lg">T</span>
-            </div>
+            
             <span className="text-2xl font-semibold text-white">Tianlu</span>
           </div>
           <p className="text-neutral-500 text-sm">Product Management System</p>

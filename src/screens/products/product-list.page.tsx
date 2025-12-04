@@ -178,46 +178,24 @@ export default function ProductListPage() {
     );
   }
 
-  const totalValue = products.reduce((sum, p) => sum + p.amount, 0);
-
   return (
     <DashboardLayout userEmail={userEmail} onLogout={handleLogout}>
       {/* Header Section */}
-      <div className="mb-8">
-        <div className="flex items-start justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-semibold text-neutral-900 mb-1">Products</h1>
-            <p className="text-sm text-neutral-500">Manage your product inventory</p>
-          </div>
-          {!showAddForm && (
-            <Button onClick={() => setShowAddForm(true)}>
-              <span className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                Add Product
-              </span>
-            </Button>
-          )}
+      <div className="flex items-start justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-semibold text-neutral-900 mb-1">Products</h1>
+          <p className="text-sm text-neutral-500">Manage your product inventory</p>
         </div>
-
-        {/* Stats Cards */}
-        <div className="grid grid-cols-3 gap-6">
-          <div className="border-l-2 border-neutral-900 pl-4">
-            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Total Items</p>
-            <p className="text-3xl font-semibold text-neutral-900">{products.length}</p>
-          </div>
-          <div className="border-l-2 border-neutral-300 pl-4">
-            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Total Value</p>
-            <p className="text-3xl font-semibold text-neutral-900">${totalValue.toFixed(2)}</p>
-          </div>
-          <div className="border-l-2 border-neutral-300 pl-4">
-            <p className="text-xs font-medium text-neutral-400 uppercase tracking-wide mb-1">Average</p>
-            <p className="text-3xl font-semibold text-neutral-900">
-              ${products.length > 0 ? (totalValue / products.length).toFixed(2) : '0.00'}
-            </p>
-          </div>
-        </div>
+        {!showAddForm && (
+          <Button onClick={() => setShowAddForm(true)}>
+            <span className="flex items-center gap-2">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add Product
+            </span>
+          </Button>
+        )}
       </div>
 
       {/* Add Product Form */}
