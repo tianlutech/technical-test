@@ -5,10 +5,11 @@ interface ProductListLayoutProps {
   count: number;
   isEmpty: boolean;
   onAddClick: () => void;
+  onDragEnd?: () => void;
   children: React.ReactNode;
 }
 
-export const ProductListLayout: React.FC<ProductListLayoutProps> = ({ count, isEmpty, onAddClick, children }) => {
+export const ProductListLayout: React.FC<ProductListLayoutProps> = ({ count, isEmpty, onAddClick, onDragEnd, children }) => {
   return (
     <div className="border border-neutral-200 rounded-lg overflow-hidden">
       <div className="px-5 py-4 border-b border-neutral-200 bg-neutral-50">
@@ -37,7 +38,7 @@ export const ProductListLayout: React.FC<ProductListLayoutProps> = ({ count, isE
           </Button>
         </div>
       ) : (
-        <div className="divide-y divide-neutral-200">{children}</div>
+        <div className="divide-y divide-neutral-200" onDragEnd={onDragEnd}>{children}</div>
       )}
     </div>
   );

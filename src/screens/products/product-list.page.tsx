@@ -132,26 +132,25 @@ export default function ProductListPage() {
         count={products.length}
         isEmpty={products.length === 0}
         onAddClick={() => setShowAddForm(true)}
+        onDragEnd={handleDragEnd}
       >
-        <div onDragEnd={handleDragEnd}>
-          {products.map((product) => (
-            <ProductItem
-              key={product.id}
-              name={product.name}
-              amount={product.amount}
-              comment={product.comment}
-              isEditing={editingId === product.id}
-              onEdit={() => setEditingId(product.id)}
-              onSave={(data) => handleSave(product.id, data)}
-              onCancel={() => setEditingId(null)}
-              onDelete={() => handleDelete(product.id)}
-              onDragStart={(e) => handleDragStart(e, product.id)}
-              onDragOver={(e) => handleDragOver(e, product.id)}
-              onDrop={(e) => handleDrop(e, product.id)}
-              dragOver={dragOverId === product.id}
-            />
-          ))}
-        </div>
+        {products.map((product) => (
+          <ProductItem
+            key={product.id}
+            name={product.name}
+            amount={product.amount}
+            comment={product.comment}
+            isEditing={editingId === product.id}
+            onEdit={() => setEditingId(product.id)}
+            onSave={(data) => handleSave(product.id, data)}
+            onCancel={() => setEditingId(null)}
+            onDelete={() => handleDelete(product.id)}
+            onDragStart={(e) => handleDragStart(e, product.id)}
+            onDragOver={(e) => handleDragOver(e, product.id)}
+            onDrop={(e) => handleDrop(e, product.id)}
+            dragOver={dragOverId === product.id}
+          />
+        ))}
       </ProductListLayout>
     </DashboardLayout>
   );
