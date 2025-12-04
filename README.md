@@ -8,11 +8,11 @@ A fullstack Next.js application for managing a personal product list with email-
 
 The application is live and ready for testing. I welcome any feedback on the implementation, design, and overall user experience.
 
-### Note on Design Improvements
+### Note on Website Redesign Proposal
 
-While working on this assessment, I reviewed [Tianlu Tech's original website](https://tianlu.tech/) and identified several UI/UX improvements that could enhance its professional appearance. I created an improved version demonstrating these enhancements at [https://tianlu.tech.olivierkarera.com/](https://tianlu.tech.olivierkarera.com/). These insights have been incorporated into the design philosophy of this application, focusing on minimalism, clarity, and user experience.
+While working on this assessment, I reviewed [Tianlu Tech's original website](https://tianlu.tech/) and identified several UI/UX improvements that could enhance its professional appearance. I created a website redesign proposal demonstrating these enhancements at [https://tianlu.tech.olivierkarera.com/](https://tianlu.tech.olivierkarera.com/). Please let me know your feedback on this.
 
-## Features
+## Features on Product List APP
 
 - **Email-only login** - No password required, magic link authentication
 - **Product management** - Add, edit, delete, and reorder products
