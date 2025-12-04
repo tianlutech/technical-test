@@ -43,7 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       subject: 'Your Login Link - Tianlu Tech',
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <p>To authenticate, please use the following One Time Password (OTP):</p>
+          <p>To authenticate, please use this link:</p>
           <h2 style="font-size: 24px; font-weight: bold; margin: 20px 0;">
             <a href="${loginUrl}" style="color: #2563eb; text-decoration: none;">Click here to login</a>
           </h2>
