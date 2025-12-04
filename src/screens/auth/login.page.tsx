@@ -19,7 +19,7 @@ export default function LoginPage() {
     authApi.getMe({ skipAuthRedirect: true })
       .then(() => router.replace('/products'))
       .catch(() => setCheckingAuth(false));
-  }, []);
+  }, [router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
