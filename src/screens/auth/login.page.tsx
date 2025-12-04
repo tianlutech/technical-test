@@ -63,81 +63,99 @@ export default function LoginPage() {
 
   if (checkingAuth) {
     return (
-      <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center">
-        <div className="w-5 h-5 border-2 border-[#f97316] border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center">
+        <div className="w-5 h-5 border-2 border-amber-500/50 border-t-amber-500 rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center px-4 relative overflow-hidden">
+      {/* Subtle background glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div className="w-full max-w-md relative z-10">
         {/* Logo */}
-        <div className="text-center mb-10">
-          <h1 className="text-2xl font-semibold text-white flex items-center justify-center gap-2">
-            <span className="text-[#f97316]">●</span>
-            <span>Tianlu</span>
-          </h1>
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <span className="text-white font-bold text-lg">T</span>
+            </div>
+            <span className="text-2xl font-semibold text-white">Tianlu</span>
+          </div>
+          <p className="text-neutral-500 text-sm">Product Management System</p>
         </div>
 
         {success ? (
-          <div className="text-center">
-            <div className="w-12 h-12 rounded-full bg-[#1a1a1a] flex items-center justify-center mx-auto mb-6">
-              <svg className="w-6 h-6 text-[#f97316]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-2xl p-8 text-center">
+            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-500 flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/20">
+              <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-lg font-medium text-white mb-2">Check your email</h2>
-            <p className="text-[#8e8e8e] text-sm mb-8">
-              We sent a login link to<br />
-              <span className="text-white">{email}</span>
+            <h2 className="text-xl font-semibold text-white mb-2">Check your inbox</h2>
+            <p className="text-neutral-400 text-sm mb-6">
+              We sent a magic link to<br />
+              <span className="text-white font-medium">{email}</span>
             </p>
             <button
               onClick={() => {
                 setSuccess(false);
                 setEmail('');
               }}
-              className="text-sm text-[#8e8e8e] hover:text-white transition-colors"
+              className="text-sm text-neutral-500 hover:text-white transition-colors"
             >
               Use a different email
             </button>
           </div>
         ) : (
-          <>
+          <div className="bg-neutral-900/50 backdrop-blur-sm border border-neutral-800 rounded-2xl p-8">
             <div className="text-center mb-8">
-              <h2 className="text-lg font-medium text-white mb-2">Welcome back</h2>
-              <p className="text-[#8e8e8e] text-sm">Enter your email to sign in</p>
+              <h2 className="text-xl font-semibold text-white mb-2">Welcome back</h2>
+              <p className="text-neutral-500 text-sm">Sign in to continue to your dashboard</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">
+                  Email address
+                </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@email.com"
+                  placeholder="you@company.com"
                   required
-                  className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#2f2f2f] rounded-lg text-white placeholder-[#8e8e8e] focus:outline-none focus:border-[#f97316] transition-colors text-sm"
+                  className="w-full px-4 py-3.5 bg-neutral-800/50 border border-neutral-700 rounded-xl text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/50 transition-all text-sm"
                 />
                 {error && (
                   <p className="mt-2 text-sm text-red-400">{error}</p>
                 )}
               </div>
 
-              <Button
+              <button
                 type="submit"
-                isLoading={isLoading}
-                className="w-full"
-                size="lg"
+                disabled={isLoading}
+                className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white font-medium rounded-xl transition-all shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
               >
-                Continue
-              </Button>
+                {isLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </span>
+                ) : (
+                  'Continue with Email'
+                )}
+              </button>
             </form>
 
-            <p className="text-center text-[#8e8e8e] text-xs mt-8">
-              No password required. We&apos;ll email you a magic link.
+            <p className="text-center text-neutral-600 text-xs mt-6">
+              No password needed. We&apos;ll send you a secure magic link.
             </p>
-          </>
+          </div>
         )}
       </div>
     </div>

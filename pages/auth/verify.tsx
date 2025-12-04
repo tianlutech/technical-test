@@ -26,10 +26,10 @@ export default function VerifyPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950 flex items-center justify-center">
       <div className="text-center">
-        <div className="w-5 h-5 border-2 border-[#f97316] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-sm text-[#8e8e8e]">Signing you in...</p>
+        <div className="w-6 h-6 border-2 border-amber-500/50 border-t-amber-500 rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-sm text-neutral-400">Signing you in...</p>
       </div>
     </div>
   );

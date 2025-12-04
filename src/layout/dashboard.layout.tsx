@@ -13,10 +13,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   onLogout,
 }) => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-neutral-50">
       <Sidebar userEmail={userEmail} onLogout={onLogout} />
       <main className="ml-[260px] min-h-screen">
-        <div className="max-w-4xl mx-auto px-8 py-10">
+        <div className="max-w-5xl mx-auto px-8 py-8">
           {children}
         </div>
       </main>

@@ -1,20 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Sohne:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --color-primary: #f97316;
-  --color-primary-hover: #ea580c;
-  --color-black: #0d0d0d;
-  --color-dark: #1a1a1a;
-  --color-gray: #2f2f2f;
-  --color-light-gray: #ececec;
-  --color-white: #ffffff;
-  --color-muted: #8e8e8e;
-}
 
 html,
 body {
@@ -23,8 +11,6 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--color-white);
-  color: var(--color-black);
 }
 
 a {
@@ -47,17 +33,11 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d1d1d1;
+  background: #e5e5e5;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
-}
-
-/* Focus styles */
-*:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  background: #d4d4d4;
 }
 

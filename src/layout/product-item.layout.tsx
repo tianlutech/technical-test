@@ -56,32 +56,34 @@ export const ProductItem: React.FC<ProductItemProps> = ({
 
   if (isEditing) {
     return (
-      <div className="p-5 border border-[#e5e5e5] rounded-xl bg-[#fafafa]">
+      <div className="p-5 bg-amber-50/50">
         <div className="space-y-4">
-          <Input
-            label="Product Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter product name"
-          />
-          <Input
-            label="Amount"
-            type="number"
-            step="0.01"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.00"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <Input
+              label="Product Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter product name"
+            />
+            <Input
+              label="Amount ($)"
+              type="number"
+              step="0.01"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+            />
+          </div>
           <Textarea
             label="Comment"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
-            placeholder="Optional comment..."
+            placeholder="Optional notes..."
             rows={2}
           />
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3">
             <Button onClick={handleSave} size="sm">
-              Save
+              Save Changes
             </Button>
             <Button onClick={onCancel} variant="ghost" size="sm">
               Cancel
@@ -98,12 +100,12 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       onDragStart={onDragStart}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      className={`group flex items-center gap-4 p-4 border border-[#e5e5e5] rounded-xl bg-white hover:border-[#d1d1d1] transition-all cursor-move ${
-        dragOver ? 'border-[#f97316] bg-[#fff7ed]' : ''
+      className={`group flex items-center gap-4 px-5 py-4 cursor-move transition-colors ${
+        dragOver ? 'bg-amber-50' : 'hover:bg-neutral-50'
       }`}
     >
       {/* Drag Handle */}
-      <div className="text-[#d1d1d1] group-hover:text-[#8e8e8e] transition-colors">
+      <div className="text-neutral-300 group-hover:text-neutral-400 transition-colors">
         <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
           <circle cx="4" cy="4" r="1.5" />
           <circle cx="4" cy="8" r="1.5" />
@@ -116,14 +118,14 @@ export const ProductItem: React.FC<ProductItemProps> = ({
 
       {/* Product Info */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-sm font-medium text-[#0d0d0d]">{initialName}</h3>
+        <h3 className="text-sm font-medium text-neutral-900">{initialName}</h3>
         {initialComment && (
-          <p className="text-sm text-[#8e8e8e] mt-0.5 truncate">{initialComment}</p>
+          <p className="text-sm text-neutral-500 mt-0.5 truncate">{initialComment}</p>
         )}
       </div>
 
       {/* Amount */}
-      <div className="text-sm font-medium text-[#0d0d0d]">
+      <div className="text-sm font-semibold text-neutral-900 tabular-nums">
         ${initialAmount.toFixed(2)}
       </div>
 
@@ -131,7 +133,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
         <button
           onClick={onEdit}
-          className="p-2 rounded-lg text-[#8e8e8e] hover:text-[#0d0d0d] hover:bg-[#f5f5f5] transition-colors"
+          className="p-2 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
           title="Edit"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +142,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         </button>
         <button
           onClick={onDelete}
-          className="p-2 rounded-lg text-[#8e8e8e] hover:text-red-500 hover:bg-red-50 transition-colors"
+          className="p-2 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50 transition-colors"
           title="Delete"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
