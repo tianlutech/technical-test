@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from '@/src/models/prisma';
 import { CreateProductDto, UpdateProductDto } from '@/src/validators/product.validator';
 
@@ -17,7 +16,7 @@ export const productRepository = {
   },
 
   create: (userId: string, data: CreateProductDto) => {
-    return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return prisma.$transaction(async (tx) => {
       const maxOrder = await tx.product.findFirst({
         where: { userId },
         orderBy: { order: 'desc' },

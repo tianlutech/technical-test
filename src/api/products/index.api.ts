@@ -3,6 +3,11 @@ import { productService } from '@/src/service/product.service';
 import { getAuthUser } from '@/src/utils/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'GET, POST, OPTIONS');
+    return res.status(200).end();
+  }
+
   try {
     const user = getAuthUser(req);
 
@@ -18,6 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(201).json(product);
     }
 
+    res.setHeader('Allow', 'GET, POST, OPTIONS');
     return res.status(405).json({ message: 'Method not allowed' });
   } catch (error: any) {
     if (error.message === 'UNAUTHORIZED') {
@@ -29,6 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     console.error('Products error:', error);
+    console.error('Error stack:', error.stack);
     return res.status(500).json({ message: 'Internal server error' });
   }
 }

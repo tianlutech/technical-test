@@ -4,7 +4,13 @@ import { reorderProductsValidator } from '@/src/validators/product.validator';
 import { getAuthUser } from '@/src/utils/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'PUT, OPTIONS');
+    return res.status(200).end();
+  }
+
   if (req.method !== 'PUT') {
+    res.setHeader('Allow', 'PUT, OPTIONS');
     return res.status(405).json({ message: 'Method not allowed' });
   }
 

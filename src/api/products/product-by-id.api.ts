@@ -3,6 +3,11 @@ import { productService } from '@/src/service/product.service';
 import { getAuthUser } from '@/src/utils/auth';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Allow', 'GET, PUT, DELETE, OPTIONS');
+    return res.status(200).end();
+  }
+
   try {
     const user = getAuthUser(req);
     const { id } = req.query;
@@ -28,6 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(204).end();
     }
 
+    res.setHeader('Allow', 'GET, PUT, DELETE, OPTIONS');
     return res.status(405).json({ message: 'Method not allowed' });
   } catch (error: any) {
     if (error.message === 'UNAUTHORIZED') {
