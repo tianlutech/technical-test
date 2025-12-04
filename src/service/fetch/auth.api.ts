@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from './api-client';
+import { apiGet, apiPost, RequestOptions } from './api-client';
 import { LoginDto } from '@/src/validators/auth.validator';
 
 export interface AuthUser {
@@ -9,7 +9,7 @@ export interface AuthUser {
 export const authApi = {
   login: (data: LoginDto) => apiPost<{ message: string }>('/api/auth/login', data),
   verifyToken: (token: string) => apiPost<{ token: string }>('/api/auth/verify', { token }),
-  getMe: () => apiGet<AuthUser>('/api/auth/me'),
+  getMe: (options?: RequestOptions) => apiGet<AuthUser>('/api/auth/me', options),
   logout: () => apiPost<{ message: string }>('/api/auth/logout'),
 };
 

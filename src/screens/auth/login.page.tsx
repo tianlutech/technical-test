@@ -16,7 +16,7 @@ export default function LoginPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
-    authApi.getMe()
+    authApi.getMe({ skipAuthRedirect: true })
       .then(() => router.replace('/products'))
       .catch(() => setCheckingAuth(false));
   }, []);

@@ -5,9 +5,13 @@ export class ApiError extends Error {
   }
 }
 
-async function handleResponse<T>(response: Response): Promise<T> {
+export interface RequestOptions {
+  skipAuthRedirect?: boolean;
+}
+
+async function handleResponse<T>(response: Response, options?: RequestOptions): Promise<T> {
   if (!response.ok) {
-    if (response.status === 401 && typeof window !== 'undefined') {
+    if (response.status === 401 && typeof window !== 'undefined' && !options?.skipAuthRedirect) {
       window.location.href = '/';
       throw new ApiError(401, 'Unauthorized');
     }
@@ -20,14 +24,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
 
 const fetchOptions = { credentials: 'include' as const, headers: { 'Content-Type': 'application/json' } };
 
-export const apiGet = <T>(url: string): Promise<T> =>
-  fetch(url, fetchOptions).then((r) => handleResponse<T>(r));
+export const apiGet = <T>(url: string, options?: RequestOptions): Promise<T> =>
+  fetch(url, fetchOptions).then((r) => handleResponse<T>(r, options));
 
-export const apiPost = <T>(url: string, data?: unknown): Promise<T> =>
-  fetch(url, { ...fetchOptions, method: 'POST', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r));
+export const apiPost = <T>(url: string, data?: unknown, options?: RequestOptions): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'POST', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r, options));
 
-export const apiPut = <T>(url: string, data?: unknown): Promise<T> =>
-  fetch(url, { ...fetchOptions, method: 'PUT', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r));
+export const apiPut = <T>(url: string, data?: unknown, options?: RequestOptions): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'PUT', body: data ? JSON.stringify(data) : undefined }).then((r) => handleResponse<T>(r, options));
 
-export const apiDelete = <T>(url: string): Promise<T> =>
-  fetch(url, { ...fetchOptions, method: 'DELETE' }).then((r) => handleResponse<T>(r));
+export const apiDelete = <T>(url: string, options?: RequestOptions): Promise<T> =>
+  fetch(url, { ...fetchOptions, method: 'DELETE' }).then((r) => handleResponse<T>(r, options));
