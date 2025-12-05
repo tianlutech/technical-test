@@ -1,89 +1,197 @@
-# 🧪 Developer Technical Test – Product List App
+# Product List App
 
-## 🧩 Goal
+A fullstack Next.js application for managing a personal product list with email-only authentication.
 
-Build a simple fullstack **Next.js** app (frontend + backend) to manage a personal product list.
+## 🚀 Live Demo
 
----
+**Deployed Application:** [https://tianlu.assessment.olivierkarera.com/](https://tianlu.assessment.olivierkarera.com/)
 
-## 📋 Features
+The application is live and ready for testing. I welcome any feedback on the implementation, design, and overall user experience.
 
-- ✅ Login with **email only** (no password)
-- ✅ Add products with:
-  - `product name`
-  - `amount`
-  - `comment`
-- ✅ View, edit, delete, and reorder product list (inline editing)
-- ✅ Each email sees only their own items
+### Note on Website Redesign Proposal
 
----
+While working on this assessment, I reviewed [Tianlu Tech's original website](https://tianlu.tech/) and identified several UI/UX improvements that could enhance its professional appearance. I created a website redesign proposal demonstrating these enhancements at [https://tianlu.tech.olivierkarera.com/](https://tianlu.tech.olivierkarera.com/). Please let me know your feedback on this.
 
-## ⚙️ Technical Requirements
+## Features on Product List APP
 
-### 🗂️ Folder Structure
+- **Email-only login** - No password required, magic link authentication
+- **Product management** - Add, edit, delete, and reorder products
+- **Inline editing** - Edit products directly in the list
+- **User isolation** - Each user sees only their own products
+- **Drag and drop reordering** - Reorder products by dragging
+- **Minimalistic design** - Clean, flat, elegant UI
 
-- `pages` → Next.js routing. Keep it just a reference to the screen folder
-````
-      import LoginPage from '../src/screen/auth/login.page';
-      
-      export default function Login() {
-        return <LoginPage />;
-      }
+## Tech Stack
 
-`````
-- `screens` → A folder for sets of screens (e.g. todo list), can contain subfolders for subcomponents
-- `layout` → General UI components with all styling (buttons, inputs, texts, labels). No CSS in `screens`, only layout components use Tailwind or style
-- `service` → Fetch layer (frontend)
-- `config` → Configuration files
-- `api` → API logic that checks authentication and handles errors (e.g. item not found)
-- `service` → Backend logic between `api` and database
+- **Next.js** (Pages Router)
+- **TypeScript**
+- **Prisma** (PostgreSQL)
+- **Zod** (Validation)
+- **Nodemailer + Gmail SMTP** (Email sending)
+- **Tailwind CSS** (Styling)
+- **JWT** (Authentication)
 
-### 📌 Component Constraints
+## Setup Instructions
 
-- Avoid multiple `useCallback` or `useEffect` per component — if needed, split into subcomponents
-- Keep components **dry**, **simple**, and **small**
-- ❌ No `try-catch` in screen or layout components
-- ❌ Avoid deeply nested or complex `if-else` logic
-- ✅ Only layout components should contain CSS or Tailwind classes
+### Prerequisites
 
-### 📁 File Naming Convention
+- Node.js 18+ installed
+- PostgreSQL database
+- Gmail account with App Password (for sending emails)
 
-- All filenames in lowercase
-- Format:
-  - `todo-list.adapter.ts`
-  - `button.layout.ts`
-  - `main.page.ts`
+### Installation
 
----
+1. Clone the repository:
 
-## 🔁 Workflow
+```bash
+git clone <repository-url>
+cd "tianlu assessment"
+```
 
-1. Fork this repository  
-2. Work on your fork (commit regularly)  
-3. When finished, open a **Pull Request (PR)** back to the original repo  
-4. Use a meaningful title and clear commit history  
-5. Use **semantic commits** (e.g. `feat:`, `fix:`, `refactor:`)
+2. Install dependencies:
 
----
+```bash
+npm install
+```
 
-## 🚀 Submission Checklist
+3. Set up environment variables:
+   Create a `.env` file in the root directory:
 
-- ✅ Code pushed to your GitHub fork  
-- ✅ PR opened to the base repo  
-- ✅ Live demo deployed to **Vercel** or **Netlify**  
-- ✅ Short `README.md` with:
-  - Local setup instructions (`npm install && npm run dev`)
-  - Basic explanation of how login works
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/productlist?schema=public"
 
----
+# JWT
+JWT_SECRET="your-super-secret-jwt-key-change-in-production"
+JWT_EXPIRES_IN="7d"
 
-## 🧪 Evaluation Phases
+# Gmail SMTP Configuration
+GMAIL_USER="your.email@gmail.com"
+GMAIL_APP_PASSWORD="your-16-character-app-password"
 
-1. Initial Delivery – core implementation review  
-2. Follow-up Feedback Simulation – you’ll be asked to implement 1–2 improvements (e.g. sorting, analytics)
+# Base URL (for email links)
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+```
 
----
+4. Set up Prisma:
 
-## ⏱️ Estimated Time
+```bash
+# Generate Prisma Client
+npm run prisma:generate
 
-~8 hours. Keep it simple but clean.
+# Run migrations
+npm run prisma:migrate
+```
+
+5. Set up Gmail App Password:
+
+   - Go to your Google Account → Security
+   - Enable **2-Step Verification** if not already enabled
+   - Go to Google Account → Security → App passwords
+   - Select app: "Mail" and device: "Other (Custom name)"
+   - Enter a name like "Product List App"
+   - Click **Generate** and copy the 16-character password
+   - Add your Gmail email and app password to `.env`
+6. Run the development server:
+
+```bash
+npm run dev
+```
+
+7. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Login Flow
+
+1. **User enters email** - On the login page, user enters their email address
+2. **Email sent** - System generates a JWT token and sends a magic link via Gmail SMTP
+3. **Click link** - User clicks the link in their email
+4. **Token verification** - System verifies the token and creates a session cookie
+5. **Access granted** - User is redirected to their product list
+
+The authentication uses JWT tokens stored in HTTP-only cookies for security. Each token contains the user's ID and email, and expires after 7 days (configurable).
+
+## Project Structure
+
+```
+├── pages/              # Next.js pages (routing only)
+├── src/
+│   ├── screens/        # Feature screens (UI logic)
+│   ├── layout/         # Reusable UI components (styled)
+│   ├── api/            # API route handlers
+│   ├── service/        # Business logic
+│   │   └── fetch/      # Frontend API client
+│   ├── repositories/   # Database operations (Prisma)
+│   ├── validators/     # Zod schemas
+│   ├── config/         # Configuration
+│   ├── models/         # Prisma client
+│   └── utils/          # Helper functions
+├── prisma/             # Prisma schema
+└── styles/             # Global styles
+```
+
+## Environment Variables
+
+| Variable                 | Description                            | Required                     |
+| ------------------------ | -------------------------------------- | ---------------------------- |
+| `DATABASE_URL`         | PostgreSQL connection string           | Yes                          |
+| `JWT_SECRET`           | Secret key for JWT signing             | Yes                          |
+| `JWT_EXPIRES_IN`       | JWT expiration time                    | No (default: 7d)             |
+| `GMAIL_USER`           | Gmail email address for sending emails | Yes                          |
+| `GMAIL_APP_PASSWORD`   | Gmail App Password (16-character)      | Yes                          |
+| `NEXT_PUBLIC_BASE_URL` | Base URL for email links               | No (default: localhost:3000) |
+
+## Development
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+
+# Run Prisma Studio (database GUI)
+npm run prisma:studio
+```
+
+## Deployment
+
+### Vercel
+
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variables
+4. Deploy
+
+### Netlify
+
+1. Push your code to GitHub
+2. Create new site in Netlify
+3. Add build command: `npm run build`
+4. Add publish directory: `.next`
+5. Add environment variables
+6. Deploy
+
+## Docker
+
+The project includes a Dockerfile for containerized deployment:
+
+```bash
+# Build the image
+docker build -t product-list-app:latest .
+
+# Run the container
+docker run -d -p 3000:3000 \
+  -e JWT_SECRET=your-secret \
+  -e DATABASE_URL=your-database-url \
+  -e GMAIL_USER=your-email \
+  -e GMAIL_APP_PASSWORD=your-app-password \
+  -e NEXT_PUBLIC_BASE_URL=http://localhost:3000 \
+  product-list-app:latest
+```
+
+## License
+
+MIT
